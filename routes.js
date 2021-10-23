@@ -11,9 +11,8 @@ router.get('/', (req, res) => {
 })
 
 
-router.get(homeController);
-router.get('/auth/register', authController);
-router.get('/auth/login', authController);
+router.use('/home', homeController);
+router.use('/auth', authController);
 
 
 module.exports = router
