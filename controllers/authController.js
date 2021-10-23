@@ -6,4 +6,9 @@ const register = (req, res) => {
     res.render('auth/register');
 }
 
-router.get('register', home);
+const login = (req, res) => {
+    res.render('auth/login');
+}
+
+router.get('/register', register);
+router.get('/login', login);
