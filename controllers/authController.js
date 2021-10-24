@@ -14,6 +14,11 @@ const login = (req, res) => {
 const register =  async (req, res) => {
     const { name, username, password, repeatpassword } = req.body;
 
+    if(password !== repeatpassword) {
+        res.locals.error = "Password missmatch!";
+        res.render('auth/register');
+    }
+
     await authService.register({ name, username, password, repeatpassword });
 
     res.redirect('/');
