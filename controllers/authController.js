@@ -16,7 +16,7 @@ const register =  async (req, res) => {
 
     if(password !== repeatpassword) {
         res.locals.error = "Password missmatch!";
-        res.render('auth/register');
+        return res.render('auth/register');
     }
 
     await authService.register({ name, username, password, repeatpassword });

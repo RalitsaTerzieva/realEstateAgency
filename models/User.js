@@ -21,7 +21,7 @@ const userSchema = new mongoose.Schema({
 
 userSchema.pre('save', function(next) {
     return bcrypt.hash(this.password, salt_rounds)
-        .then((next) => {
+        .then((hash) => {
             this.password = hash;
             return next();
         })
