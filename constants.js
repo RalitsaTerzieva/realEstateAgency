@@ -1,1 +1,1 @@
-exports.DB_CONNECTION_STRING = "mongodb://27017/real-estate"
+exports.DB_CONNECTION_STRING = "mongodb://localhost:27017/real-estate"

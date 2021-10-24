@@ -4,7 +4,7 @@
   "description": "This is educational application.",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon index.js",
+    "start": "NODE_ENV=development nodemon index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Ralitsa",
