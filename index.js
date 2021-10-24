@@ -7,7 +7,7 @@ const initialDatabase = require('./config/database');
 
 const app = express();
 
-
+app.use(express.urlencoded({extended: true}));
 require('./config/handlebars')(app);
 app.use('/static', express.static(path.resolve(__dirname, './static')));
 app.use(routes);
