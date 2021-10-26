@@ -34,7 +34,8 @@ const housingSchema = new mongoose.Schema({
         friends: [{ type: ObjectId, ref: 'User' }]
     },
     owner: {
-
+        type: mongoose.Schema.ObjectId, 
+        ref: "User"
     }
 })
 

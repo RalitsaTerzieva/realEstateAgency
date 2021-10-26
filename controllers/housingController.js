@@ -13,9 +13,7 @@ router.get('/create', (req, res) => {
 })
 
 router.post('/create',  async (req, res) => {
-    const { name, type, year, city, image, description, pieces } = req.body;
-
-    await housingService.create({name, type, year, city, image, description, pieces})
+    await housingService.create({...req.body, req.user._id})
     res.redirect('/housing');
 })
 
