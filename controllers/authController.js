@@ -1,6 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const authService = require('../services/authService');
+const { AUTH_COOKIE_NAME } = require('../constants');
 
 
 const renderRegister = (req, res) => {
@@ -21,7 +22,8 @@ const register =  async (req, res) => {
     
     try {
         await authService.register({ name, username, password, repeatpassword });
-
+        let token = await authService.login({username, password});
+        res.cookie(AUTH_COOKIE_NAME, token);
         res.redirect('/');
     } catch(err) {
         res.render('404');
@@ -30,12 +32,13 @@ const register =  async (req, res) => {
 }
 
 const login = async (req, res) => {
-    const { username, password } = req.body;
-
+    const { name, password } = req.body;
     try {
-        await authService.login({ username, password });
-        res.redirect('');
+        let token = await authService.login({ username: name, password: password });
+        res.cookie(AUTH_COOKIE_NAME, token);
+        res.redirect('/');
     } catch(err) {
+        console.log(err)
         res.render('404');
     }
 }
