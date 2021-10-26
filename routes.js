@@ -9,6 +9,7 @@ const housingController = require('./controllers/housingController.js')
 router.use('/home', homeController);
 router.use('/auth', authController);
 router.use('/housing', housingController);
+router.use('/housing/create', housingController);
 
 
 module.exports = router

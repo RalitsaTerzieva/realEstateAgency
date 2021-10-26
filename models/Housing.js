@@ -18,15 +18,15 @@ const housingSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    homeimage: {
+    image: {
         type: String,
         required: true
     },
-    propertydescription: {
+    description: {
         type: String,
         required: true
     },
-    availablepieces: {
+    pieces: {
         type: Number,
         required: true
     },
