@@ -36,4 +36,9 @@ router.get('/:housingId/rent', async (req, res) => {
     res.redirect(`/housing/${req.params.housingId}/details`)
 })
 
+router.get('/:housindId/delete', async (req, res) => {
+    await housingService.delete(req.params.housindId);
+    res.redirect('/housing');
+})
+
 module.exports = router;
