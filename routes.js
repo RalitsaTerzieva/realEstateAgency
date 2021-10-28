@@ -10,6 +10,9 @@ router.use('/home', homeController);
 router.use('/auth', authController);
 router.use('/housing', housingController);
 router.use('/housing/create', housingController);
+router.use('*', (req, res) => {
+    res.render('404');
+})
 
 
 module.exports = router
