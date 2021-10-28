@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const housingService = require('../services/housingService');
+const { isAuth } = require('../middlewares/authMiddleware');
 
 
 router.get('/', async (req, res) => {
@@ -9,12 +10,12 @@ router.get('/', async (req, res) => {
     res.render('/housing', housings);
 })
 
-router.get('/create', (req, res) => {
+router.get('/create', isAuth,  (req, res) => {
     res.render('/housing/create');
 })
 
-router.post('/create',  async (req, res) => {
-    await housingService.create({...req.body, req.user._id})
+router.post('/create', isAuth,  async (req, res) => {
+    await housingService.create({...req.body, owner: req.user._id});
     res.redirect('/housing');
 })
 
@@ -30,9 +31,12 @@ router.get('/housingId/details', async (req, res) => {
     res.render('/housing/details', {...housingData, isOwner, tenants, isAvailable, isRented})
 })
 
-router.get('/:housingId/rent', async (req, res) => {
+
+router.get('/:housingId/rent', isOwner, async (req, res) => {
 
     await housingService.addTenant(req.params.housingId, req.user,_id);
+
+    if(req.params.)
     res.redirect(`/housing/${req.params.housingId}/details`)
 })
 
@@ -48,7 +52,27 @@ router.get('/:housindId/edit', async (req, res) => {
 
 router.post('/:housingId/edit',  async (req, res) => {
     await housingService.updateOne(res.params.housingId, req.body)
-    res.redirect(`/housing/${req.params.housingId}/edit);
+    res.redirect(`/housing/${req.params.housingId}/edit`);
 })
+
+async function isOwner(req, res, next) {
+    let housing = await housingService.getOne(req.params.housingId);
+
+    if(housing.owner == req.user._id) {
+        res.redirect(`/housing/${req.params.housingId}/details`);
+    } else {
+        next();
+    }
+}
+
+async function isntOwner(req, res, next) {
+    let housing = await housingService.getOne(req.params.housingId);
+
+    if(housing.owner != req.user._id) {
+        next();
+    } else {
+        res.redirect(`/housing/${req.params.housingId}/details`);
+    }
+}
 
 module.exports = router;

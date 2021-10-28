@@ -7,8 +7,6 @@ const housingSchema = new mongoose.Schema({
     },
     type: {
         enum: ["Apartment", "Villa", "House"],
-        default: "Apartment",
-        required: true
     },
     year: {
         type: Number,

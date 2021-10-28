@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const authService = require('../services/authService');
 const { AUTH_COOKIE_NAME } = require('../constants');
+const { isGuest, isAuth } = require('../middlewares/authMiddleware'); 
 
 
 const renderRegister = (req, res) => {
@@ -49,10 +50,10 @@ const logout = async (req, res) => {
 }
 
 
-router.get('/register', renderRegister);
-router.get('/login', renderLogin);
-router.post('/register', register);
-router.post('/login', login);
-router.get('/logout', logout);
+router.get('/register', isGuest,  renderRegister);
+router.get('/login', isGuest, renderLogin);
+router.post('/register', isGuest, register);
+router.post('/login', isGuest, login);
+router.get('/logout', isAuth,  logout);
 
 module.exports = router;
