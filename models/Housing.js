@@ -22,7 +22,7 @@ const housingSchema = new mongoose.Schema({
     },
     image: {
         type: String,
-        validate: [/^http|https+/, 'Image should starts with http or https.'],
+        validate: [/^https?:\/\//, 'Image should starts with http or https.'],
         required: true
     },
     description: {
