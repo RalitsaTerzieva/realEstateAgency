@@ -15,9 +15,23 @@ router.get('/create', isAuth,  (req, res) => {
 })
 
 router.post('/create', isAuth,  async (req, res) => {
-    await housingService.create({...req.body, owner: req.user._id});
-    res.redirect('/housing');
+    try {
+        await housingService.create({...req.body, owner: req.user._id});
+        res.redirect('/housing');
+    } catch(err) {
+        res.render('/housing/create', {error: getErrorMessage(error)});
+    }
+    
 })
+
+function getErrorMessage(error) {
+    let errorNames = Object.keys(error.errors);
+    if(errorNames.length > 0) {
+        return error.errors[0]
+    } else {
+        return error._message;
+    }
+}
 
 router.get('/housingId/details', async (req, res) => {
 
@@ -40,17 +54,17 @@ router.get('/:housingId/rent', isOwner, async (req, res) => {
     res.redirect(`/housing/${req.params.housingId}/details`)
 })
 
-router.get('/:housindId/delete', async (req, res) => {
+router.get('/:housindId/delete', isntOwner, async (req, res) => {
     await housingService.delete(req.params.housindId);
     res.redirect('/housing');
 })
 
-router.get('/:housindId/edit', async (req, res) => {
+router.get('/:housindId/edit', isntOwner, async (req, res) => {
     let housing = await housingService.getOne(req.param.housingId);
     res.render('/housing/edit', {...housing.toObject()});
 })
 
-router.post('/:housingId/edit',  async (req, res) => {
+router.post('/:housingId/edit', isntOwner,  async (req, res) => {
     await housingService.updateOne(res.params.housingId, req.body)
     res.redirect(`/housing/${req.params.housingId}/edit`);
 })

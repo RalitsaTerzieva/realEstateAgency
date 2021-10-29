@@ -3,30 +3,38 @@ const mongoose = require('mongoose');
 const housingSchema = new mongoose.Schema({
     name: {
         type: String,
-        required: true
+        required: true,
+        minlength: 6,
     },
     type: {
         enum: ["Apartment", "Villa", "House"],
     },
     year: {
         type: Number,
-        required: true
+        required: true,
+        min: 1960,
+        max: 2080
     },
     city: {
         type: String,
-        required: true
+        required: true,
+        minlength: 4
     },
     image: {
         type: String,
+        validate: [/^http|https+/, 'Image should starts with http or https.'],
         required: true
     },
     description: {
         type: String,
-        required: true
+        required: true,
+        maxlength: 60,
     },
     pieces: {
         type: Number,
-        required: true
+        required: true,
+        min: 0,
+        max: 10
     },
     tenants: [
         {
