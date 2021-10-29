@@ -4,11 +4,18 @@ const router = express.Router();
 const housingService = require('../services/housingService');
 
 
-const home = async (req, res) => {
+router.get('/', async (req, res) => {
     let housings = await housingService.getTopHouses();
     res.render('home', housings);
-}
+})
 
-router.get('/', home);
+
+
+router.get('/search', (req, res) => {
+    
+    let housings = await housingService.search(req.query.text);
+
+    res.render('search', housings);
+})
 
 module.exports = router;

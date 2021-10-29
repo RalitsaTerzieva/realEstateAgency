@@ -24,3 +24,5 @@ exports.addTenants = async (housingId, tenantId) => {
 exports.delete = (housingId) => Housing.findByIdAndDelete(housingId);
 
 exports.updateOne = (housingId, housingData) => Housing.findByIdAndUpdate(housingId, housingData);
+
+exports.search = (text) => Housing.find({ type: {$regex: text, $options: 'i'} }).lean();
